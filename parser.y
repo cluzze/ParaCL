@@ -7,7 +7,8 @@
 %left  "&&"
 %left  "==" "!="
 %left  '+' '-'
-%right "++" "--"
+%right '!' "++" "--"
+%left  '?'
 %left  '('
 %%
 
@@ -35,18 +36,18 @@ var_def1: IDENTIFIER '=' expr
 
 expr: NUMCONST
 |     IDENTIFIER
-|     expr '+' expr
-|     expr '-' expr  %prec '+'
-|     expr '!' expr
+|     expr '+'  expr
+|     expr '-'  expr %prec '+'
 |     expr "+=" expr
 |     expr "-=" expr
-|     expr "!!" expr
+|     expr "||" expr
 |     expr "&&" expr
 |     expr "==" expr
 |     expr "!=" expr
-|     expr ","  expr
+|     expr ','  expr
 |     '-'  expr
 |     '+'  expr      %prec '-'
+|     '!'  expr      %prec '-'
 |     "++" expr
 |     "--" expr      %prec "++"
 |     expr "++"
