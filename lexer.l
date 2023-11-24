@@ -1,10 +1,13 @@
 %option c++
+%option yylineno
 
 %{
 
 #include <iostream>
 
 %}
+
+%x COMMENT
 
 WS      [ \t\n\r\v]+
 DIGIT   [0-9]
@@ -14,7 +17,26 @@ NUMBER  (0|[1-9][0-9]*)
 
 %%
 
+"*/" {
+    std::cout << "ERROR: Unmatched */\n";
+}
+
+"/*" {
+    BEGIN(COMMENT);
+}
+
+<COMMENT><<EOF>> {
+    BEGIN(INITIAL);
+    std::cout << "ERROR: EOF in comment\n";
+}
+
+<COMMENT>. { }
+<COMMENT>"*/" {
+    BEGIN(INITIAL);
+}
+
 {WS}
+
 "if"    std::cout << "if\n";
 "else"  std::cout << "else\n";
 "while" std::cout << "while\n";
@@ -52,6 +74,6 @@ NUMBER  (0|[1-9][0-9]*)
 
 {ID}      std::cout << "IDENTIFIER\n";
 {NUMBER}  std::cout << "INTEGER\n";
-.         std::cout << "UNKNOWN\n";
+.         std::cout << "ERROR: " << yytext << "\n";
 
 %%
