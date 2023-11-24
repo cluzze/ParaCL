@@ -10,6 +10,7 @@ WS      [ \t\n\r\v]+
 DIGIT   [0-9]
 DIGIT1  [1-9]
 ID      [a-zA-Z_][a-zA-Z_0-9]*
+I_CONST DECREMENT
 
 %%
 
@@ -50,5 +51,6 @@ ID      [a-zA-Z_][a-zA-Z_0-9]*
 ","     std::cout << "COMMA\n";
 
 ID      std::cout << "IDENTIFIER\n";
+.       std::cout << "UNKNOWN\n";
 
 %%
