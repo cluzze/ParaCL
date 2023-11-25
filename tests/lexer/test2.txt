@@ -1,0 +1,10 @@
+sum_= 0;
+i_ = 1;
+ma_X = ?;
+
+while (i_ <=  ma_X) {
+    sum_ += i_;
+    i_++;
+}
+
+print sum_; 

@@ -4,7 +4,7 @@
 %{
 
 #include <iostream>
-
+ 
 %}
 
 %x COMMENT
@@ -18,7 +18,7 @@ NUMBER  (0|[1-9][0-9]*)
 %%
 
 "*/" {
-    std::cout << "ERROR: Unmatched */\n";
+    std::cout << "ERROR on line " << yylineno << ": Unmatched */\n";
 }
 
 "/*" {
@@ -26,11 +26,11 @@ NUMBER  (0|[1-9][0-9]*)
 }
 
 <COMMENT><<EOF>> {
+    std::cout << "ERROR on line " << yylineno << ": Unterminated comment /*\n";
     BEGIN(INITIAL);
-    std::cout << "ERROR: EOF in comment\n";
 }
 
-<COMMENT>. { }
+<COMMENT>. {}
 <COMMENT>"*/" {
     BEGIN(INITIAL);
 }
@@ -74,6 +74,6 @@ NUMBER  (0|[1-9][0-9]*)
 
 {ID}      std::cout << "IDENTIFIER\n";
 {NUMBER}  std::cout << "INTEGER\n";
-.         std::cout << "ERROR: " << yytext << "\n";
+.         std::cout << "ERROR on line " << yylineno << ": " << yytext << "\n";
 
 %%
