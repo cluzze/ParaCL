@@ -1,4 +1,5 @@
 #include <iostream>
+#include "driver.hpp"
 #include <FlexLexer.h>
 
 int yyFlexLexer::yywrap() {
@@ -7,7 +8,6 @@ int yyFlexLexer::yywrap() {
 
 int main() {
     FlexLexer* lexer = new yyFlexLexer;
-    while (lexer->yylex() != 0) {}
-
-    delete lexer;
+    yy::Driver driver(lexer);
+    driver.parse();
 }

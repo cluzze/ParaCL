@@ -4,7 +4,8 @@
 %{
 
 #include <iostream>
- 
+#include "parser.hpp"
+
 %}
 
 %x COMMENT
@@ -37,43 +38,49 @@ NUMBER  (0|[1-9][0-9]*)
 
 {WS}
 
-"if"    std::cout << "if\n";
-"else"  std::cout << "else\n";
-"while" std::cout << "while\n";
-"?"     std::cout << "input\n";
-"print" std::cout << "output\n";
+"if"    return yy::parser::token_type::IF;
+"else"  return yy::parser::token_type::ELSE;
+"while" return yy::parser::token_type::WHILE;
+"?"     return yy::parser::token_type::INPUT;
+"print" return yy::parser::token_type::PRINT;
 
-"=="    std::cout << "EQUALS\n";
-"="     std::cout << "ASSIGN\n";
+"=="    return yy::parser::token_type::EQUALS;
+"="     return yy::parser::token_type::ASSIGN;
 
-"++"    std::cout << "INCREMENT\n";
-"+="    std::cout << "PLUS_EQ\n";
-"+"     std::cout << "PLUS\n";
+"++"    return yy::parser::token_type::PLUS_PLUS;
+"+="    return yy::parser::token_type::PLUS_EQ;
+"+"     return yy::parser::token_type::PLUS;
 
-"--"    std::cout << "DECREMENT\n";
-"-="    std::cout << "MINUS_EQ\n";
-"-"     std::cout << "MINUS\n";
+"--"    return yy::parser::token_type::MINUS_MINUS;
+"-="    return yy::parser::token_type::MINUS_EQ;
+"-"     return yy::parser::token_type::MINUS;
 
-"<<="   std::cout << "LEFT_SHIFT_EQ\n";
-"<<"    std::cout << "LEFT_SHIFT\n";
-"<="    std::cout << "LESS_EQ\n";
-"<"     std::cout << "LESS\n";
+"*="    return yy::parser::token_type::MULT_EQ;
+"*"     return yy::parser::token_type::MULT;
 
-">>="   std::cout << "RIGHT_SHIFT_EQ\n";
-">>"    std::cout << "RIGHT_SHIFT\n";
-">="    std::cout << "GREATER_EQ\n";
-">"     std::cout << "GREATER\n";
+"/="    return yy::parser::token_type::DIV_EQ;
+"/"     return yy::parser::token_type::DIV;
 
-"("     std::cout << "OP_B\n";
-")"     std::cout << "CL_B\n";
-"{"     std::cout << "OP_CB\n";
-"}"     std::cout << "CL_CB\n";
-";"     std::cout << "SEMI_COLON\n";
-":"     std::cout << "COLON\n";
-","     std::cout << "COMMA\n";
+"<<="   return yy::parser::token_type::LEFT_SHIFT_EQ;
+"<<"    return yy::parser::token_type::LEFT_SHIFT;
+"<="    return yy::parser::token_type::LESS_EQ;
+"<"     return yy::parser::token_type::LESS;
 
-{ID}      std::cout << "IDENTIFIER\n";
-{NUMBER}  std::cout << "INTEGER\n";
+">>="   return yy::parser::token_type::RIGHT_SHIFT_EQ;
+">>"    return yy::parser::token_type::RIGHT_SHIFT;
+">="    return yy::parser::token_type::GREATER_EQ;
+">"     return yy::parser::token_type::GREATER;
+
+"("     return yy::parser::token_type::OP_B;
+")"     return yy::parser::token_type::CL_B;
+"{"     return yy::parser::token_type::OP_CB;
+"}"     return yy::parser::token_type::CL_CB;
+";"     return yy::parser::token_type::SEMI_COLON;
+":"     return yy::parser::token_type::COLON;
+","     return yy::parser::token_type::COMMA;
+
+{ID}      return yy::parser::token_type::IDENTIFIER;
+{NUMBER}  return yy::parser::token_type::NUMBER;
 .         std::cout << "ERROR on line " << yylineno << ": " << yytext << "\n";
 
 %%
